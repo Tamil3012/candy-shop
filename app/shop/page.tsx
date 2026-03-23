@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShoppingCart, Heart, Search, Filter, X, 
@@ -35,7 +35,7 @@ type Product = {
   };
 };
 
-export default function ShopPage() {
+function ShopContent() {
   const { addToCart, addToWishlist, isInWishlist } = useCart();
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get("category");
@@ -284,6 +284,18 @@ export default function ShopPage() {
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="w-12 h-12 border-4 border-rose-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <ShopContent />
+    </Suspense>
   );
 }
 
