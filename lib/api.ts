@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY || "";
+const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 const STORE_ID = process.env.NEXT_PUBLIC_STORE_ID || "";
 
 const getHeaders = () => ({
@@ -11,7 +11,7 @@ const getHeaders = () => ({
 
 const isConfigured = () => {
     if (!BASE_URL || !API_KEY || !STORE_ID) {
-        console.warn("⚠️ API Configuration is missing! Ensure NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_KEY, and NEXT_PUBLIC_STORE_ID are set in environment variables.");
+        console.warn("⚠️ API Configuration is missing! Ensure NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_KEY (or NEXT_PUBLIC_SUPABASE_ANON_KEY), and NEXT_PUBLIC_STORE_ID are set in environment variables.");
         return false;
     }
     return true;
