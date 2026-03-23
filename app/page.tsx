@@ -6,7 +6,7 @@ import {
   ChevronRight, Truck, Heart, CreditCard, RotateCcw, 
   ShoppingCart, Star, Clock, ShieldCheck, Mail, Send 
 } from "lucide-react";
-import { getStore, getCategories, getProducts } from "@/lib/api";
+import { getStore, getCategories, getProducts, getImageUrl } from "@/lib/api";
 import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
 import Navbar from "@/components/Navbar";
@@ -59,7 +59,7 @@ export default function Home() {
         fetchData();
     }, []);
 
-    const assets = process.env.NEXT_PUBLIC_ASSETS_URL || "";
+
     const activeProducts = products.filter(p => p.status === "1");
 
     if (loading) return (
@@ -104,7 +104,7 @@ export default function Home() {
                             className="relative z-10 w-full flex items-center justify-center"
                         >
                             <img
-                                src={activeProducts.length > 0 ? `${assets}${activeProducts[0].imageurl_1}` : "https://via.placeholder.com/800?text=SWEET"}
+                                src={getImageUrl(activeProducts[0]?.imageurl_1)}
                                 alt="Main Cake"
                                 className="w-full max-w-lg drop-shadow-[0_45px_65px_rgba(0,0,0,0.15)] group-hover:scale-105 transition-transform duration-700"
                             />
@@ -128,10 +128,9 @@ export default function Home() {
                            className="w-24 h-24 lg:w-32 lg:h-32 bg-slate-50 border border-slate-100 rounded-full overflow-hidden flex items-center justify-center p-4 group-hover:shadow-2xl group-hover:shadow-rose-100 group-hover:-translate-y-2 transition-all duration-500 mb-6 group-hover:bg-white"
                          >
                             <img 
-                              src={`${assets}${cat.imageurl}`} 
+                              src={getImageUrl(cat.imageurl)} 
                               alt={cat.name} 
                               className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500" 
-                              onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/150?text=Cake"; }}
                             />
                          </motion.div>
                          <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 group-hover:text-rose-600 transition-colors">{cat.name}</h3>
@@ -171,7 +170,7 @@ export default function Home() {
                            >
                               <Link href={`/product/${prod.seo_url}`} className="block relative aspect-square bg-slate-50/50 rounded-sm mb-6 overflow-hidden">
                                  <div className="absolute top-4 left-4 z-10 bg-rose-600 text-white text-[8px] font-black px-3 py-1.5 rounded-sm tracking-widest uppercase italic">NEW</div>
-                                 <img src={`${assets}${prod.imageurl_1}`} alt={prod.name} className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-700 drop-shadow-lg" />
+                                  <img src={getImageUrl(prod.imageurl_1)} alt={prod.name} className="w-full h-full object-contain p-6 group-hover:scale-110 transition-transform duration-700 drop-shadow-lg" />
                               </Link>
                               <div className="text-center space-y-3">
                                  <div className="flex gap-0.5 justify-center text-amber-400">
@@ -220,9 +219,9 @@ export default function Home() {
                            "Simply the best artisan sweets I've ever had. Every bite is a burst of flavor and nostalgia. Handcrafted perfection for every single occasion!"
                         </p>
                         <div className="flex flex-col items-center">
-                           <div className="w-20 h-20 rounded-full bg-slate-200 mb-6 overflow-hidden border-4 border-white shadow-xl">
-                              <img src="https://via.placeholder.com/100?text=JD" alt="User" />
-                           </div>
+                            <div className="w-20 h-20 rounded-full bg-slate-200 mb-6 overflow-hidden border-4 border-white shadow-xl">
+                               <img src="https://placehold.co/100x100?text=JD" alt="User" />
+                            </div>
                            <h4 className="text-sm font-black uppercase tracking-widest text-slate-800 italic">Jessica Doe</h4>
                            <p className="text-[10px] font-bold text-rose-500 uppercase tracking-widest mt-1 italic">Designer @ Artisan Home</p>
                         </div>
@@ -246,7 +245,7 @@ export default function Home() {
                              className="group bg-white border border-slate-100 p-2 rounded-sm"
                            >
                               <div className="aspect-[16/10] bg-slate-50 relative overflow-hidden mb-8">
-                                 <img src={`https://via.placeholder.com/400x250?text=Cake+Blog+${i}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="News" />
+                                  <img src={`https://placehold.co/400x250?text=Cake+Blog+${i}`} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="News" />
                                  <div className="absolute inset-0 bg-rose-600/0 group-hover:bg-rose-600/10 transition-colors" />
                               </div>
                               <div className="px-4 py-4 text-center space-y-4">

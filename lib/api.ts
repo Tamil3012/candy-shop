@@ -3,6 +3,17 @@ import axios from "axios";
 const BASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
 const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 const STORE_ID = process.env.NEXT_PUBLIC_STORE_ID || "";
+const ASSETS_URL = process.env.NEXT_PUBLIC_ASSETS_URL || "";
+
+export const getImageUrl = (path: string | undefined | null) => {
+    if (!path || path === "") return "https://placehold.co/600x600?text=Candy+Shop";
+    if (path.startsWith("http")) return path;
+    // Remove leading slash if path has one and ASSETS_URL ends with one
+    const cleanPath = path.startsWith("/") ? path.substring(1) : path;
+    const cleanAssets = ASSETS_URL.endsWith("/") ? ASSETS_URL : `${ASSETS_URL}/`;
+    return `${cleanAssets}${cleanPath}`;
+};
+
 
 const getHeaders = () => ({
   apikey: API_KEY,
@@ -13,6 +24,9 @@ const isConfigured = () => {
     if (!BASE_URL || !API_KEY || !STORE_ID) {
         console.warn("⚠️ API Configuration is missing! Ensure NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_KEY (or NEXT_PUBLIC_SUPABASE_ANON_KEY), and NEXT_PUBLIC_STORE_ID are set in environment variables.");
         return false;
+    }
+    if (!ASSETS_URL) {
+        console.warn("⚠️ NEXT_PUBLIC_ASSETS_URL is missing! Images will not load correctly.");
     }
     return true;
 };

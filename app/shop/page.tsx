@@ -6,7 +6,7 @@ import {
   ShoppingCart, Heart, Search, Filter, X, 
   SlidersHorizontal, ChevronDown, ChevronUp, Check, ChevronRight 
 } from "lucide-react";
-import { getStore, getCategories, getProducts } from "@/lib/api";
+import { getStore, getCategories, getProducts, getImageUrl } from "@/lib/api";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useCart } from "@/lib/CartContext";
@@ -107,7 +107,7 @@ function ShopContent() {
     setSortBy("popularity");
   };
 
-  const assets = process.env.NEXT_PUBLIC_ASSETS_URL || "";
+
 
   if (loading) return (
     <div className="min-h-screen flex items-center justify-center bg-white">
@@ -201,7 +201,7 @@ function ShopContent() {
           <div className="flex-1">
              <div className="grid grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-12">
                {filteredProducts.map((prod) => (
-                 <ProductCard key={prod.id} product={prod} assets={assets} addToCart={addToCart} addToWishlist={addToWishlist} isInWishlist={isInWishlist} />
+                 <ProductCard key={prod.id} product={prod} addToCart={addToCart} addToWishlist={addToWishlist} isInWishlist={isInWishlist} />
                ))}
              </div>
              {filteredProducts.length === 0 && (
@@ -299,7 +299,7 @@ export default function ShopPage() {
   );
 }
 
-function ProductCard({ product, assets, addToCart, addToWishlist, isInWishlist }: any) {
+function ProductCard({ product, addToCart, addToWishlist, isInWishlist }: any) {
   const inWishlist = isInWishlist(product.id);
   
   return (
@@ -315,7 +315,7 @@ function ProductCard({ product, assets, addToCart, addToWishlist, isInWishlist }
           </div>
           
           <Link href={`/product/${product.seo_url}`} className="block w-full h-full p-6">
-             <img src={`${assets}${product.imageurl_1}`} alt={product.name} className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-110 transition-transform duration-700" />
+             <img src={getImageUrl(product.imageurl_1)} alt={product.name} className="w-full h-full object-contain drop-shadow-2xl group-hover:scale-110 transition-transform duration-700" />
           </Link>
 
           <button 

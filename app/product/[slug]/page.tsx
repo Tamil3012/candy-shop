@@ -6,7 +6,7 @@ import {
   ShoppingCart, Heart, Share2, Star, Minus, Plus, 
   ChevronRight, ChevronLeft, ChevronDown, Facebook, Twitter, Instagram, User
 } from "lucide-react";
-import { getProductBySlug, getProducts, getStore } from "@/lib/api";
+import { getProductBySlug, getProducts, getStore, getImageUrl } from "@/lib/api";
 import Link from "next/link";
 import { useCart } from "@/lib/CartContext";
 import Navbar from "@/components/Navbar";
@@ -24,7 +24,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
     const [activeTab, setActiveTab] = useState("description");
     const autoSwipeRef = useRef<NodeJS.Timeout | null>(null);
 
-    const assets = process.env.NEXT_PUBLIC_ASSETS_URL || "";
+
     
     useEffect(() => {
         const fetchData = async () => {
@@ -138,7 +138,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                                     onClick={() => handleImgChange(i)}
                                     className={`relative aspect-square rounded-sm overflow-hidden border-2 transition-all p-1 bg-slate-50 shrink-0 w-20 sm:w-full ${selectedImg === i ? "border-rose-600" : "border-transparent opacity-60 hover:opacity-100"}`}
                                 >
-                                    <img src={`${assets}${img}`} alt={`Thumb ${i}`} className="w-full h-full object-contain" />
+                                    <img src={getImageUrl(img)} alt={`Thumb ${i}`} className="w-full h-full object-contain" />
                                 </button>
                             ))}
                         </div>
@@ -161,11 +161,10 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                                     }}
                                 >
                                     <img
-                                        src={`${assets}${images[selectedImg]}`}
+                                        src={getImageUrl(images[selectedImg])}
                                         alt={product.name}
                                         className="w-full h-full object-contain p-8 sm:p-12 drop-shadow-2xl cursor-pointer"
                                         onClick={nextImg}
-                                        onError={(e) => { (e.target as HTMLImageElement).src = "https://via.placeholder.com/600?text=Product"; }}
                                     />
                                 </motion.div>
                              </AnimatePresence>
@@ -380,7 +379,7 @@ export default function ProductPage({ params }: { params: Promise<{ slug: string
                               className="group font-sans rounded-sm border border-transparent hover:border-slate-50 p-4 transition-all duration-500"
                             >
                                 <Link href={`/product/${p.seo_url}`} className="block relative aspect-square bg-[#f8f8f8] rounded-sm overflow-hidden mb-8 group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all">
-                                    <img src={`${assets}${p.imageurl_1}`} className="w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-700 drop-shadow-lg" alt={p.name} />
+                                    <img src={getImageUrl(p.imageurl_1)} className="w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-700 drop-shadow-lg" alt={p.name} />
                                 </Link>
                                 <div className="space-y-4">
                                     <div className="flex gap-0.5 text-amber-400">
